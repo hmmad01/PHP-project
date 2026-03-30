@@ -16,11 +16,11 @@ class UserProfile {
 
     // Method untuk menampilkan hasil inputan
     public function displayProfile() {
-        echo "<div style='margin-top: 20px; font-family: sans-serif;'>";
-        echo "<b>Hi, my name is " . $this->firstname . " " . $this->lastname . "</b><br>";
-        echo "<b>Phone Number : " . $this->phone . "</b><br>";
-        echo "<b>Address : " . $this->address . "</b><br>";
-        echo "<a href='' style='font-size: 12px; color: gray; text-decoration: none; margin-top: 10px; display: inline-block;'>Reset</a>";
+        echo "<div style='margin-top: 30px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.6;'>";
+        echo "Hi, my name is " . $this->firstname . " " . $this->lastname . "<br>";
+        echo "Phone Number : " . $this->phone . "<br>";
+        echo "Address : " . $this->address . "<br>";
+        echo "<a href='' style='font-size: 10px; color: gray; text-decoration: none; margin-top: 10px; display: inline-block;'>Reset</a>";
         echo "</div>";
     }
 }
@@ -49,37 +49,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #f4f4f9;
+            background-color: #ffffff; /* Ubah ke putih bersih seperti di layar macbook */
             margin: 0;
         }
         .form-container {
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             width: 100%;
-            max-width: 400px;
+            max-width: 600px; /* Diperlebar agar proporsinya mirip gambar */
+            padding: 20px;
         }
         input[type="text"], textarea {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #dcdcdc;
+            border-radius: 3px;
             box-sizing: border-box;
+            font-size: 13px;
+        }
+        textarea {
+            resize: vertical;
+        }
+        /* Container baru untuk menengahkan button */
+        .button-container {
+            text-align: center;
+            margin-top: 10px;
         }
         button {
-            width: 100%;
-            padding: 12px;
-            background-color: #4a90e2; /* Warna biru mirip di contoh */
+            padding: 8px 30px; /* Membuat bentuknya seperti pil kecil */
+            background-color: #5b9bd5; /* Warna biru sesuai modul */
             color: white;
             border: none;
-            border-radius: 20px;
+            border-radius: 15px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 13px;
         }
         button:hover {
-            background-color: #357abd;
+            background-color: #4a84bc;
         }
     </style>
 </head>
@@ -87,14 +92,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="form-container">
         <form method="POST" action="">
-            <input type="text" name="firstname" placeholder="Firstname" required>
-            <input type="text" name="lastname" placeholder="Lastname" required>
-            <input type="text" name="phone" placeholder="Phone Number" required>
-            <textarea name="address" placeholder="Address" rows="4" required></textarea>
-            <button type="submit">Submit</button>
+            <input type="text" name="firstname" placeholder="Firstname" value="<?= isset($_POST['firstname']) ? htmlspecialchars($_POST['firstname']) : '' ?>" required>
+            
+            <input type="text" name="lastname" placeholder="Lastname" value="<?= isset($_POST['lastname']) ? htmlspecialchars($_POST['lastname']) : '' ?>" required>
+            
+            <input type="text" name="phone" placeholder="Phone Number" value="<?= isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : '' ?>" required>
+            
+            <textarea name="address" placeholder="Address" rows="4" required><?= isset($_POST['address']) ? htmlspecialchars($_POST['address']) : '' ?></textarea>
+            
+            <div class="button-container">
+                <button type="submit">Submit</button>
+            </div>
         </form>
 
         <?php 
+        // Menampilkan output di bawah form jika tombol submit sudah ditekan
         if ($isSubmitted && $user != null) {
             $user->displayProfile(); 
         }
